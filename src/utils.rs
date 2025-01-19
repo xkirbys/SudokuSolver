@@ -13,3 +13,7 @@ pub fn read_from_clipboard() -> Result<String, Box<dyn std::error::Error>> {
 
     Ok(contents)
 }
+
+pub fn key_pressed(input: &egui::InputState, key: egui::Key) -> bool {
+    input.keys_down.contains(&key)
+}

@@ -1,3 +1,5 @@
+use std::io::{stdout, Write};
+
 // Validate the Grid
 fn valid(grid: &[[Option<u8>; 9]; 9], row: usize, col: usize, num: u8) -> bool {
     for x in 0..9 {
@@ -6,7 +8,7 @@ fn valid(grid: &[[Option<u8>; 9]; 9], row: usize, col: usize, num: u8) -> bool {
         }
     }
 
-    for x in 0..9 {
+    for (x, _item) in grid.iter().enumerate().take(9) {
         if grid[x][col] == Some(num) {
             return false;
         }
@@ -35,7 +37,7 @@ pub fn solve_sudoku(grid: &mut [[Option<u8>; 9]; 9], progress: &mut f32) -> bool
     let total_cells = 81;
     let mut filled_cells = 0;
 
-    for x in 0..9 {
+    for (x, _item) in grid.iter().enumerate().take(9) {
         for y in 0..9 {
             if grid[x][y].is_some() {
                 filled_cells += 1;
@@ -62,7 +64,8 @@ pub fn solve_sudoku(grid: &mut [[Option<u8>; 9]; 9], progress: &mut f32) -> bool
 
     for num in 1..=9 {
         if valid(grid, row, col, num) {
-            println!("{:.2}% - GUESS: {:?}, CURRENT CELL: {:?}, {:?}", *(progress) * 100.0, num, row, col);
+            print!("\r{:.2}% - GUESS: {:?}, CURRENT CELL: {:?}, {:?}", *(progress) * 100.0, num, row, col);
+            stdout().flush().expect("TODO: panic message");
             grid[row][col] = Some(num);
             if solve_sudoku(grid, progress) {
                 return true;

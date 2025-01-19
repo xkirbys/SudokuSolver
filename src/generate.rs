@@ -1,10 +1,11 @@
-use reqwest::blocking::{Client, get};
+use reqwest::blocking::{Client};
 use reqwest::header::CONTENT_TYPE;
 use serde_derive::{Deserialize, Serialize};
 use serde_json::from_str;
-use crate::Difficulty;
+use crate::difficulty::Difficulty;
 
 #[derive(Deserialize, Debug)]
+#[allow(dead_code)]
 struct SudokuApi {
     difficulty: String,
     puzzle: String,
